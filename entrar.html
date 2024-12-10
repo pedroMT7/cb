@@ -1,0 +1,63 @@
+<!DOCTYPE html>  
+<html lang="pt-BR">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="styles.css">  
+    <title>Login</title>  
+    <script>  
+        function registrar() {  
+            const nome = document.getElementById('nome').value;  
+            const email = document.getElementById('email').value;  
+            const senha = document.getElementById('senha').value;  
+
+            // Guarda o usuário no Local Storage  
+            localStorage.setItem(email, JSON.stringify({ nome: nome, senha: senha }));  
+            localStorage.setItem('email', email); // Armazena o email para verificar se está autenticado  
+
+            alert('Usuário registrado com sucesso!');  
+            window.location.href = "dashboard.html"; // Redireciona para o painel do usuário  
+        }  
+
+        function fazerLogin(event) {  
+            event.preventDefault(); // Impede que a página seja recarregada ao enviar o formulário  
+            const email = document.getElementById('email').value;  
+            const senha = document.getElementById('password').value; // Corrigido para usar o id correto  
+
+            const usuarioLogado = localStorage.getItem(email);  
+            if (usuarioLogado) {  
+                const usuario = JSON.parse(usuarioLogado);  
+                if (usuario.senha === senha) {  
+                    localStorage.setItem('email', email); // Guarda o email  
+                    window.location.href = "dashboard.html"; // Redireciona para o painel  
+                } else {  
+                    alert('Senha incorreta!');  
+                }  
+            } else {  
+                alert('Usuário não encontrado!');  
+            }  
+        }  
+    </script>  
+</head>  
+<body>  
+    <div id="container">  
+        <h1>Bem-Vindo ao Mei Connect</h1>  
+        <h2>Entrar</h2>  
+        <form onsubmit="fazerLogin(event);"> <!-- Corrigido aqui -->  
+            <div>  
+                <label for="email">Email:</label>  
+                <input type="email" id="email" required>  
+            </div>  
+            <div>  
+                <label for="password">Senha:</label>  
+                <input type="password" id="password" required> <!-- ID corrigido -->  
+            </div>  
+            <button type="submit">Entrar</button>  
+            <p>Não tem uma conta? <a href="cadastrar.html">Crie uma aqui</a>.</p>  
+        </form>  
+        <footer>  
+            <p>&copy; 2023 MEI CONNECT</p>  
+        </footer>  
+    </div>  
+</body>  
+</html>

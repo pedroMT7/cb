@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Painel do Usuário</title>
+</head>
+<body>
+    <div id="container">
+        <h1>Bem-vindo ao seu painel, <span id="usuario"></span>!</h1>
+        <p>Aqui está a lista de profissionais que podem ser contratados:</p>
+
+        <nav>
+            <ul id="lista-profissionais"></ul> <!-- Lista de profissionais -->
+        </nav>
+
+        <button onclick="sair()">Sair</button>
+        <footer>
+            <p>&copy; 2023 MEI CONNECT</p>
+        </footer>
+    </div>
+
+    <script>
+        // Exemplo de dados de funcionários
+        const funcionarios = [
+            { id: 1, nome: 'Kleber', profissao: 'Jardineiro',  especializacao: 'Paisagismo' },
+            { id: 2, nome: 'João', profissao: 'Cabeleireiro',  especializacao: 'Cortes modernos' },
+            { id: 3, nome: 'Ana', profissao: 'Confeiteira',  especializacao: 'Bolos artísticos' },
+            { id: 4, nome: 'Pedro', profissao: 'Designer',  especializacao: 'Design gráfico' },
+            { id: 5, nome: 'Paulo', profissao: 'DJ',  especializacao: 'Música eletrônica' },
+            { id: 6, nome: 'Maria', profissao: 'Fotógrafa',  especializacao: 'Eventos' },
+            { id: 7, nome: 'Lucas', profissao: 'Marceneiro',  especializacao: 'Móveis planejados' },
+            { id: 8, nome: 'Sofia', profissao: 'Arquiteta',  especializacao: 'Design de interiores' },
+            { id: 9, nome: 'Carlos', profissao: 'Eletricista',  especializacao: 'Instalações residenciais' },
+            { id: 10, nome: 'Beatriz', profissao: 'Nutricionista',  especializacao: 'Nutrição esportiva' }
+        ];
+
+        // Renderizando a lista de funcionários com botão "Contratar"
+        const listaProfissionais = document.getElementById('lista-profissionais');
+        funcionarios.forEach(funcionario => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <strong>ID:</strong> ${funcionario.id} <br>
+                <strong>Nome:</strong> ${funcionario.nome} <br>
+                <strong>Profissão:</strong> ${funcionario.profissao} <br>
+                <strong>Especialização:</strong> ${funcionario.especializacao} <br>
+                <button class="contratar-btn">Contratar</button> <!-- Botão de contratar -->
+            `;
+            listaProfissionais.appendChild(li);
+        });
+
+        // Script para verificar a autenticação
+        const emailDoUsuario = localStorage.getItem('email');
+
+        if (emailDoUsuario) {
+            const usuarioLogado = localStorage.getItem(emailDoUsuario);
+            
+            if (usuarioLogado) {
+                const usuario = JSON.parse(usuarioLogado);
+                document.getElementById('usuario').innerText = usuario.nome;
+            } else {
+                alert('Usuário não encontrado. Redirecionando para o login.');
+                window.location.href = "index.html";   
+            }
+        } else {
+            alert('Você não está autenticado. Redirecionando para o login.');   
+            window.location.href = "index.html";   
+        }
+
+        // Função para sair
+        function sair() {
+            localStorage.removeItem('email'); // Remove o email do Local Storage
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
